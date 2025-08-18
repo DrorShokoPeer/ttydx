@@ -1,0 +1,354 @@
+:root {
+    --primary-color: #0066cc;
+    --primary-hover: #0052a3;
+    --background: #0a0a0a;
+    --surface: #1a1a1a;
+    --surface-hover: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --border: #333333;
+    --sidebar-width: 250px;
+    --header-height: 60px;
+}
+
+[data-theme="light"] {
+    --background: #ffffff;
+    --surface: #f5f5f5;
+    --surface-hover: #e0e0e0;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border: #dddddd;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    height: var(--header-height);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 100;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-left h1 {
+    font-size: 1.5rem;
+    background: linear-gradient(45deg, var(--primary-color), #00aa44);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.user-info {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-right button {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.header-right button:hover {
+    background: var(--surface-hover);
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.new-session-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.new-session-btn:hover {
+    background: var(--primary-hover);
+}
+
+.session-list {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.session-item {
+    padding: 12px 16px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.3s ease;
+}
+
+.session-item:hover {
+    background: var(--surface-hover);
+}
+
+.session-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.session-name {
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+.close-session {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 3px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.close-session:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.terminal-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-tabs {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+}
+
+.terminal-container {
+    flex: 1;
+    position: relative;
+}
+
+#terminalFrame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: var(--background);
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--surface);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h2 {
+    font-size: 1.3rem;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.close-btn:hover {
+    background: var(--surface-hover);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.setting-group {
+    margin-bottom: 20px;
+}
+
+.setting-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.setting-group select {
+    width: 100%;
+    padding: 10px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.modal-footer {
+    padding: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.btn-secondary {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--border);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+    
+    .header-left h1 {
+        font-size: 1.2rem;
+    }
+    
+    .user-info {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        position: absolute;
+        z-index: 200;
+        height: 100%;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .terminal-area {
+        width: 100%;
+    }
+}

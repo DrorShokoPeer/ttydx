@@ -1,0 +1,32 @@
+{
+  "name": "Light Professional",
+  "colors": {
+    "background": "#ffffff",
+    "foreground": "#333333",
+    "cursor": "#333333",
+    "cursorAccent": "#ffffff",
+    "selection": "#e6e6e6",
+    "black": "#333333",
+    "red": "#cc0000",
+    "green": "#00aa00",
+    "yellow": "#aa5500",
+    "blue": "#0066cc",
+    "magenta": "#aa00aa",
+    "cyan": "#00aaaa",
+    "white": "#aaaaaa",
+    "brightBlack": "#555555",
+    "brightRed": "#ff5555",
+    "brightGreen": "#55ff55",
+    "brightYellow": "#ffff55",
+    "brightBlue": "#5555ff",
+    "brightMagenta": "#ff55ff",
+    "brightCyan": "#55ffff",
+    "brightWhite": "#ffffff"
+  },
+  "properties": {
+    "fontSize": 14,
+    "fontFamily": "'JetBrains Mono', 'Fira Code', monospace",
+    "cursorBlink": true,
+    "bellStyle": "sound"
+  }
+}

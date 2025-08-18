@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  ttydx:
+    build: .
+    container_name: ttydx-terminal
+    ports:
+      - "8080:80"
+      - "8443:443"
+    environment:
+      - TZ=UTC
+      - NODE_ENV=production
+      - SESSION_SECRET=your-secret-key-change-me
+    volumes:
+      - ttydx_data:/home/terminal
+      - ttydx_logs:/app/logs
+      # - ./ssl:/etc/ssl/certs:ro  # Mount your SSL certificates here for production
+    restart: unless-stopped
+    networks:
+      - ttydx-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Redis for session storage (recommended for production)
+  redis:
+    image: redis:7-alpine
+    container_name: ttydx-redis
+    command: redis-server --appendonly yes --requirepass your-redis-password
+    volumes:
+      - ttydx_redis:/data
+    networks:
+      - ttydx-network
+    restart: unless-stopped
+    profiles:
+      - production
+
+  # Optional: Reverse proxy for production
+  traefik:
+    image: traefik:v3.0
+    container_name: ttydx-proxy
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.email=your-email@domain.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ttydx_letsencrypt:/letsencrypt
+    networks:
+      - ttydx-network
+    restart: unless-stopped
+    profiles:
+      - production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.yourdomain.com`)"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+
+volumes:
+  ttydx_data:
+  ttydx_logs:
+  ttydx_redis:
+  ttydx_letsencrypt:
+
+networks:
+  ttydx-network:
+    driver: bridge
