@@ -48,5 +48,5 @@ echo "✅ TTYdx container initialized successfully!"
 echo "🌐 Access your terminal at: http://localhost"
 echo "🔐 Default credentials: admin/admin123 or user/user123"
 
-# Execute the main command
-exec "$@"
+# Switch to terminal user for supervisord and services
+exec su-exec terminal "$@"

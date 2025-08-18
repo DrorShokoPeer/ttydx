@@ -12,27 +12,11 @@ COPY auth/ ./auth/
 # Install dependencies and build auth system
 RUN npm install --only=production
 
+# Use pre-built ttyd binary from releases
 FROM alpine:3.18 AS ttyd-builder
-
-# Install build dependencies
-RUN apk add --no-cache \
-    build-base \
-    cmake \
-    git \
-    libevent-dev \
-    json-c-dev \
-    openssl-dev \
-    zlib-dev
-
-# Build ttyd from source for latest features
-WORKDIR /tmp
-RUN git clone https://github.com/tsl0922/ttyd.git && \
-    cd ttyd && \
-    mkdir build && \
-    cd build && \
-    cmake .. && \
-    make && \
-    make install
+RUN apk add --no-cache curl && \
+    curl -sL https://github.com/tsl0922/ttyd/releases/download/1.7.4/ttyd.x86_64 -o /usr/local/bin/ttyd && \
+    chmod +x /usr/local/bin/ttyd
 
 FROM alpine:3.18
 
@@ -109,9 +93,6 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 # Set working directory
 WORKDIR /home/terminal
-
-# Run as non-root user
-USER terminal
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
