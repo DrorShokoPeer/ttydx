@@ -3,12 +3,14 @@ FROM node:18-alpine AS auth-builder
 
 WORKDIR /app
 
-# Copy auth system files
-COPY auth/ ./auth/
+# Copy package.json from root
 COPY package*.json ./
 
+# Copy auth system files
+COPY auth/ ./auth/
+
 # Install dependencies and build auth system
-RUN npm ci --only=production
+RUN npm install --only=production
 
 FROM alpine:3.18 AS ttyd-builder
 
