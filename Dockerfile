@@ -82,7 +82,9 @@ RUN chown terminal:terminal /home/terminal/.bashrc /home/terminal/.zshrc
 
 # Create startup script
 COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh /app/scripts/*
+RUN sed -i 's/\r$//' /app/entrypoint.sh && \
+    find /app/scripts -name "*.sh" -exec sed -i 's/\r$//' {} \; && \
+    chmod +x /app/entrypoint.sh /app/scripts/*
 
 # Expose ports
 EXPOSE 80 443 7681
