@@ -101,4 +101,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 # Set working directory
 WORKDIR /home/terminal
 
-CMD ["/bin/bash", "-c", "su-exec terminal supervisord -c /etc/supervisor/conf.d/supervisord.conf"]
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
