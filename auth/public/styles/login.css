@@ -166,3 +166,8 @@ input:focus {
         font-size: 2rem;
     }
 }
+
+/* Utility classes */
+.hidden {
+    display: none !important;
+}

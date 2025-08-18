@@ -352,3 +352,8 @@ body {
         width: 100%;
     }
 }
+
+/* Utility classes */
+.hidden {
+    display: none !important;
+}

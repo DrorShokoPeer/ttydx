@@ -40,13 +40,13 @@
                     <!-- Tabs will be populated dynamically -->
                 </div>
                 <div class="terminal-container" id="terminalContainer">
-                    <iframe id="terminalFrame" src="/ttyd" frameborder="0"></iframe>
+                    <iframe id="terminalFrame" src="/ttyd" frameborder="0" title="Terminal Interface"></iframe>
                 </div>
             </div>
         </main>
 
         <!-- Settings Modal -->
-        <div class="modal" id="settingsModal" style="display: none;">
+        <div class="modal hidden" id="settingsModal">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2>Settings</h2>
@@ -55,7 +55,7 @@
                 <div class="modal-body">
                     <div class="setting-group">
                         <label>Theme</label>
-                        <select id="themeSelect">
+                        <select id="themeSelect" aria-label="Theme selection">
                             <option value="dark">Dark</option>
                             <option value="light">Light</option>
                             <option value="solarized">Solarized</option>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="setting-group">
                         <label>Font Size</label>
-                        <select id="fontSizeSelect">
+                        <select id="fontSizeSelect" aria-label="Font size selection">
                             <option value="12">12px</option>
                             <option value="14" selected>14px</option>
                             <option value="16">16px</option>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="setting-group">
                         <label>Font Family</label>
-                        <select id="fontFamilySelect">
+                        <select id="fontFamilySelect" aria-label="Font family selection">
                             <option value="monospace">Monospace</option>
                             <option value="'Fira Code', monospace">Fira Code</option>
                             <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
