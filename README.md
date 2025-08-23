@@ -281,17 +281,14 @@ The Docker image is based on Alpine Linux, which uses a minimal base image. If y
 
 ```dockerfile
 # These packages provide standard Linux commands
-RUN apk add --no-cache \
+RUN apk update && apk add --no-cache \
     coreutils \      # ls, tail, head, cat, sleep, etc.
     util-linux \     # mount, umount, lsblk, etc.  
     findutils \      # find, xargs, locate
-    grep \           # grep, egrep, fgrep
-    sed \            # stream editor
-    awk \            # pattern processing
-    procps \         # ps, top, free, etc.
-    busybox-extras \ # additional BusyBox utilities
+    procps-ng \      # ps, top, free, etc.
     less \           # pager
     tree             # directory tree display
+    # Note: grep, sed, awk are provided by BusyBox (already included)
 ```
 
 To test if all commands are available:

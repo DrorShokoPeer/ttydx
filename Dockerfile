@@ -21,7 +21,7 @@ RUN apk add --no-cache curl && \
 FROM alpine:3.18
 
 # Install runtime dependencies
-RUN apk add --no-cache \
+RUN apk update && apk add --no-cache \
     bash \
     zsh \
     fish \
@@ -51,11 +51,7 @@ RUN apk add --no-cache \
     coreutils \
     util-linux \
     findutils \
-    grep \
-    sed \
-    awk \
-    procps \
-    busybox-extras \
+    procps-ng \
     less \
     tree
 

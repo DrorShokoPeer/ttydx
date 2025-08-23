@@ -8,6 +8,13 @@ The TTYdx Docker image was built using Alpine Linux as the base image, which is 
 
 Alpine Linux uses BusyBox for many basic utilities, but it doesn't include the full GNU coreutils package by default. The original Dockerfile was missing several essential packages that provide standard Linux commands.
 
+### Package Issues Resolved
+
+1. **Missing coreutils**: Commands like `ls`, `tail`, `head`, `cat`, `sleep` were not available
+2. **Incorrect package names**: Used `procps` instead of `procps-ng` (Alpine-specific naming)
+3. **Redundant packages**: Removed `grep`, `sed`, `awk` as they're provided by BusyBox
+4. **Non-existent packages**: Removed `busybox-extras` which doesn't exist in Alpine 3.18
+
 ## Solution
 
 ### 1. Updated Dockerfile
@@ -16,18 +23,15 @@ Added the following packages to the `apk add` command in the Dockerfile:
 
 ```dockerfile
 # Install runtime dependencies
-RUN apk add --no-cache \
+RUN apk update && apk add --no-cache \
     # ... existing packages ...
     coreutils \      # ls, tail, head, cat, sleep, etc.
     util-linux \     # mount, umount, lsblk, etc.  
     findutils \      # find, xargs, locate
-    grep \           # grep, egrep, fgrep
-    sed \            # stream editor
-    awk \            # pattern processing
-    procps \         # ps, top, free, etc.
-    busybox-extras \ # additional BusyBox utilities
+    procps-ng \      # ps, top, free, etc.
     less \           # pager
     tree             # directory tree display
+    # Note: grep, sed, awk are provided by BusyBox (already included)
 ```
 
 ### 2. Created Test Script
