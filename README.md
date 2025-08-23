@@ -276,33 +276,6 @@ docker-compose exec ttydx tail -f /app/logs/ttyd.log
 curl -H "Upgrade: websocket" -H "Connection: upgrade" http://localhost:8080/ttyd
 ```
 
-**Missing standard Linux commands (ls, tail, sleep, etc.)**:
-The Docker image is based on Alpine Linux, which uses a minimal base image. If you encounter "command not found" errors for standard utilities, this is because the Alpine image includes only essential packages by default. The Dockerfile has been updated to include the necessary packages:
-
-```dockerfile
-# These packages provide standard Linux commands
-RUN apk add --no-cache \
-    coreutils \      # ls, tail, head, cat, sleep, etc.
-    util-linux \     # mount, umount, lsblk, etc.  
-    findutils \      # find, xargs, locate
-    grep \           # grep, egrep, fgrep
-    sed \            # stream editor
-    awk \            # pattern processing
-    procps \         # ps, top, free, etc.
-    busybox-extras \ # additional BusyBox utilities
-    less \           # pager
-    tree             # directory tree display
-```
-
-To test if all commands are available:
-```bash
-# Run the command availability test
-docker-compose exec ttydx /app/scripts/test-commands.sh
-
-# Or manually test specific commands
-docker-compose exec ttydx which ls tail sleep
-```
-
 ### Getting Help
 - Check the [Issues](https://github.com/your-username/ttydx/issues) page
 - Review the documentation in the `docs/` directory
