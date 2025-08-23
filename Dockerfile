@@ -1,16 +1,16 @@
 # Multi-stage build for modern ttyd container
 FROM node:18-alpine AS auth-builder
 
-WORKDIR /app
+WORKDIR /app/auth
 
-# Copy package.json from root
-COPY package*.json ./
-
-# Copy auth system files
-COPY auth/ ./auth/
+# Copy package.json from auth directory
+COPY auth/package*.json ./
 
 # Install dependencies and build auth system
 RUN npm install --only=production
+
+# Copy auth system files
+COPY auth/ .
 
 # Use pre-built ttyd binary from releases
 FROM alpine:3.18 AS ttyd-builder
@@ -53,7 +53,7 @@ RUN apk add --no-cache \
 COPY --from=ttyd-builder /usr/local/bin/ttyd /usr/local/bin/
 
 # Copy auth system from builder
-COPY --from=auth-builder /app /app/auth
+COPY --from=auth-builder /app/auth /app/auth
 
 # Create non-root user
 RUN addgroup -g 1000 terminal && \
@@ -91,6 +91,10 @@ RUN mkdir -p /app/logs /etc/ssl/certs /etc/ssl/private && \
     chmod 600 /etc/ssl/private/server.key && \
     chmod 644 /etc/ssl/certs/server.crt
 
+# Copy and configure entrypoint
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # Expose ports
 EXPOSE 80 443 7681
 
@@ -100,5 +104,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 # Set working directory
 WORKDIR /home/terminal
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
