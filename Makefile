@@ -1,6 +1,6 @@
 # TTYdx Container Management
 
-.PHONY: build run stop clean logs dev prod test-commands
+.PHONY: build run stop clean logs dev prod
 
 # Default target
 all: build
@@ -64,11 +64,6 @@ backup:
 	@echo "💾 Creating backup..."
 	docker run --rm -v ttydx_ttydx_data:/data -v $(PWD):/backup alpine tar czf /backup/ttydx-backup-$(shell date +%Y%m%d-%H%M%S).tar.gz -C /data .
 
-# Test command availability
-test-commands:
-	@echo "🔍 Testing command availability in container..."
-	docker-compose exec ttydx /app/scripts/test-commands.sh
-
 # Help
 help:
 	@echo "TTYdx Container Commands:"
@@ -82,5 +77,4 @@ help:
 	@echo "  status   - Show service status"
 	@echo "  clean    - Clean up resources"
 	@echo "  backup   - Backup user data"
-	@echo "  test-commands - Test command availability"
 	@echo "  help     - Show this help"

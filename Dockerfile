@@ -47,17 +47,7 @@ RUN apk add --no-cache \
     shadow \
     su-exec \
     tzdata \
-    ca-certificates \
-    coreutils \
-    util-linux \
-    findutils \
-    grep \
-    sed \
-    awk \
-    procps \
-    busybox-extras \
-    less \
-    tree
+    ca-certificates
 
 # Copy ttyd binary from builder
 COPY --from=ttyd-builder /usr/local/bin/ttyd /usr/local/bin/
